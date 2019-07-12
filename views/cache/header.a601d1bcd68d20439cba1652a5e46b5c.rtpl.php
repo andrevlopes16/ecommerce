@@ -1,4 +1,4 @@
-  <!-- Bootstrap 3.3.6 -->
+<?php if(!class_exists('Rain\Tpl')){exit;}?>  <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/res/admin/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
