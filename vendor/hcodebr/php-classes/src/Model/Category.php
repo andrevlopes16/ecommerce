@@ -52,7 +52,7 @@ class Category extends Model {
 
  }
 
- public function updateFile()
+ public static function updateFile()
  {
 
  	$categories = Category::listAll();
