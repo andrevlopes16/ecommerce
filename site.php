@@ -3,12 +3,19 @@ use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\Model\Category;
 use \Hcode\Model;
+use \Hcode\Model\products;
 
 $app->get('/', function() {
 
+	$products = products::listAll();
+
 	$Page = new Page();
 
-	$Page->setTpl("index");   
+	$Page->setTpl("index", [
+
+		'products'=>Products::checkList($products)
+
+	]);   
 	
 
 });
