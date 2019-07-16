@@ -52,4 +52,21 @@ $app->get("/categories/:idcategory", function($idcategory){
 
 });
 
+$app->get("/products/:desurl", function($desurl){
+
+	$product = new Products();
+
+	$product->getFromURL($desurl);
+
+	$Page = new Page();
+
+	$Page->setTpl("product-detail", [
+
+		'product'=>$product->getValues(),
+		'categories'=>$product->getCategories()
+
+	]);   
+
+});
+
 ?>
