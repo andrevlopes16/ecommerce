@@ -6,6 +6,52 @@ use \Hcode\Mailer;
 class User extends Model {
 	const SESSION = "users";
 	const SECRET = "Hcodephp7_secret";
+
+	public static function getFromSession()
+	{
+		$user = new User();
+
+		if(isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0){
+
+			$user->setData($_SESSION[User::SESSION]);
+		}
+
+		return $user;
+	}
+
+	public static function checkLogin($inadmin = true)
+	{
+
+		if(
+			!isset($_SESSION[User::SESSION])
+			||
+			!$_SESSION[User::SESSION]
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0
+		){
+			//não esta logado
+			return false;
+
+		} else {
+
+			if($inadmin === true && (bool)$_SESSION[User::SESSION]["iduser"] === true){
+
+				return true;
+				
+			} else if ($inadmin === false){
+
+				return true;
+
+			} else{
+
+				return false;
+			}
+
+		}
+
+	}
+
+
 	public static function login($login, $password)
 	{
 		$sql = new Sql();
@@ -30,27 +76,24 @@ class User extends Model {
 	}
 	public static function verifyLogin($inadmin = true)
 	{
-		if(!isset($_SESSION[User::SESSION])
-			||
-			!$_SESSION[User::SESSION]
-			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0
-			||
-			(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin
-		){
+		if(User::checkLogin($inadmin)){
+
 			header("Location: /admin/login");
 			exit;
 		}
 	}
+
 	public static function logout()
 	{
 		$_SESSION[User::SESSION] = NULL;
 	}
+
 	public static function listAll()
 	{
 		$sql = new Sql();
 		return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
 	}
+
  public function save()
  {
  	$sql = new Sql();
